@@ -9,6 +9,14 @@ class App extends React.Component {
     };
   }
 
+  fetchList() {
+    if (localStorage.getItem("NicoPlayList") === null) {
+      localStorage.setItem("NicoPlayList", JSON.stringify([]));
+    } else {
+      this.setState({ douga: JSON.parse(localStorage.getItem("NicoPlayList")) });
+    }
+  }
+
   addList() {
     document.addEventListener("keydown", e => {
       if (e.key === "a") this.setState({ keyFlag: true });
@@ -23,9 +31,7 @@ class App extends React.Component {
         if (this.state.keyFlag) {
           e.preventDefault();
           const id = item.getAttribute("data-id");
-          const preventList = JSON.parse(localStorage.getItem("NicoPlayList")).douga;
-          const list = { douga: [...preventList, id] };
-          localStorage.setItem("NicoPlayList", JSON.stringify(list));
+          this.setState({ douga: [...this.state.douga, id] });
         }
       });
     });
@@ -35,22 +41,33 @@ class App extends React.Component {
     if (!location.pathname.match(/^\/watch\/sm\d+/)) return;
 
     const video = document.querySelector("video");
+    video.autoplay = true;
     video.addEventListener("ended", () => {
-      location.href = "http://www.nicovideo.jp/watch/sm32547140";
+      const id = this.state.douga[0];
+      this.setState({ douga: this.state.douga.slice(1, this.state.douga.length) });
+      location.href = `http://www.nicovideo.jp/watch/${id}`;
     });
   };
 
   componentDidMount() {
+    this.fetchList();
     this.addList();
     this.playerJump();
-    if (localStorage.getItem("NicoPlayList") === null)
-      localStorage.setItem("NicoPlayList", JSON.stringify({douga: []}));
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.keyFlag || nextState.douga === undefined) return;
+    localStorage.setItem("NicoPlayList", JSON.stringify(nextState.douga));
   }
 
   render() {
     return (
       <div>
-        <p>hello</p>
+        <ul>
+          {this.state.douga.map((item, key) => (
+            <li key={key}>{item}</li>
+          ))}
+        </ul>
       </div>
     );
   }
