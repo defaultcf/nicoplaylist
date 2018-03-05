@@ -39,10 +39,10 @@ module.exports = {
         },
       },
     }),
-    new webpack.BannerPlugin({
-      raw: true,
-      entryOnly: true,
-      banner,
-    }),
+    // new webpack.BannerPlugin({
+    //   raw: true,
+    //   entryOnly: true,
+    //   banner,
+    // }),
   ],
 };

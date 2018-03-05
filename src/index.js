@@ -1,15 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
-import videoController from './videoController';
+import App from './app';
+import listController from './listController';
 
-videoController();
+listController();
 
-const body = document.querySelector("body");
-const app_area = document.createElement("nicoplaylist");
-body.appendChild(app_area);
+const app = () => {
+  const body = document.querySelector("body");
+  const app_area = document.createElement("nicoplaylist");
+  body.appendChild(app_area);
 
-ReactDOM.render(
-  <h1>hello</h1>,
-  app_area
-);
+  ReactDOM.render(
+    <App />,
+    app_area
+  );
+};
+
+window.addEventListener("load", function(event) {
+  app();
+});
