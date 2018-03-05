@@ -2,9 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./style.css";
 import App from './app';
-import listController from './listController';
-
-listController();
 
 const app = () => {
   const body = document.querySelector("body");
@@ -17,6 +14,4 @@ const app = () => {
   );
 };
 
-window.addEventListener("load", function(event) {
-  app();
-});
+window.addEventListener("load", app);
