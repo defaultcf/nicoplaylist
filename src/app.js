@@ -56,7 +56,11 @@ class App extends React.Component {
 
     const video = document.querySelector("video");
     video.autoplay = true;
+
+    video.addEventListener("timeupdate", () => {});
+
     video.addEventListener("ended", () => {
+      if (this.state.douga.length === 0) return;
       const { id } = this.state.douga[0];
       this.storeDouga(this.state.douga.slice(1, this.state.douga.length));
       location.href = `http://www.nicovideo.jp/watch/${id}`;
@@ -74,8 +78,10 @@ class App extends React.Component {
       <div>
         {this.state.douga.map((item, key) => (
           <div key={key}>
-            <img src={item.img} />
-            <p>{item.title}</p>
+            <a href={`http://www.nicovideo.jp/watch/${item.id}`}>
+              <img src={item.img} />
+              <p>{item.title}</p>
+            </a>
           </div>
         ))}
       </div>
