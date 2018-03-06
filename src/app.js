@@ -9,12 +9,23 @@ class App extends React.Component {
     };
   }
 
+  storeDouga(douga) {
+    this.setState({ douga: douga });
+    localStorage.setItem("NicoPlayList", JSON.stringify(douga));
+  }
+
   fetchList() {
     if (localStorage.getItem("NicoPlayList") === null) {
       localStorage.setItem("NicoPlayList", JSON.stringify([]));
     } else {
-      this.setState({ douga: JSON.parse(localStorage.getItem("NicoPlayList")) });
+      this.storeDouga(JSON.parse(localStorage.getItem("NicoPlayList")))
     }
+
+    window.addEventListener("storage", e => {
+      if (e.key === "NicoPlayList") {
+        this.setState({ douga: JSON.parse(e.newValue) });
+      }
+    }, false)
   }
 
   addList() {
@@ -31,7 +42,8 @@ class App extends React.Component {
         if (this.state.keyFlag) {
           e.preventDefault();
           const id = item.getAttribute("data-id");
-          this.setState({ douga: [...this.state.douga, id] });
+          const douga = [...this.state.douga, id];
+          this.storeDouga(douga);
         }
       });
     });
@@ -44,7 +56,7 @@ class App extends React.Component {
     video.autoplay = true;
     video.addEventListener("ended", () => {
       const id = this.state.douga[0];
-      this.setState({ douga: this.state.douga.slice(1, this.state.douga.length) });
+      this.storeDouga(this.state.douga.slice(1, this.state.douga.length));
       location.href = `http://www.nicovideo.jp/watch/${id}`;
     });
   };
@@ -53,11 +65,6 @@ class App extends React.Component {
     this.fetchList();
     this.addList();
     this.playerJump();
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    if (this.state.keyFlag || nextState.douga === undefined) return;
-    localStorage.setItem("NicoPlayList", JSON.stringify(nextState.douga));
   }
 
   render() {
