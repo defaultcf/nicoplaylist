@@ -36,13 +36,15 @@ class App extends React.Component {
       this.setState({ keyFlag: false });
     });
 
-    const thumbs = Array.from(document.getElementsByClassName("itemThumb"));
-    thumbs.forEach(item => {
+    const items = Array.from(document.getElementsByClassName("item"));
+    items.forEach(item => {
       item.addEventListener("click", e => {
         if (this.state.keyFlag) {
           e.preventDefault();
-          const id = item.getAttribute("data-id");
-          const douga = [...this.state.douga, id];
+          const id = item.querySelector(".itemThumb").getAttribute("data-id");
+          const title = item.querySelector(".itemTitle a").innerHTML;
+          const img = item.querySelector(".thumb").src;
+          const douga = [...this.state.douga, {id, title, img}];
           this.storeDouga(douga);
         }
       });
@@ -55,7 +57,7 @@ class App extends React.Component {
     const video = document.querySelector("video");
     video.autoplay = true;
     video.addEventListener("ended", () => {
-      const id = this.state.douga[0];
+      const { id } = this.state.douga[0];
       this.storeDouga(this.state.douga.slice(1, this.state.douga.length));
       location.href = `http://www.nicovideo.jp/watch/${id}`;
     });
@@ -70,11 +72,12 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <ul>
-          {this.state.douga.map((item, key) => (
-            <li key={key}>{item}</li>
-          ))}
-        </ul>
+        {this.state.douga.map((item, key) => (
+          <div key={key}>
+            <img src={item.img} />
+            <p>{item.title}</p>
+          </div>
+        ))}
       </div>
     );
   }
