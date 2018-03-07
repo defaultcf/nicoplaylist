@@ -41,11 +41,10 @@ class App extends React.Component {
       item.addEventListener("click", e => {
         if (this.state.keyFlag) {
           e.preventDefault();
-          const id = item.querySelector(".itemThumb").getAttribute("data-id");
+          const url = item.querySelector(".itemTitle a").getAttribute("href");
           const title = item.querySelector(".itemTitle a").innerHTML;
           const img = item.querySelector(".thumb").src;
-          const douga = [...this.state.douga, {id, title, img}];
-          this.storeDouga(douga);
+          this.storeDouga([...this.state.douga, {url, title, img}]);
         }
       });
     });
@@ -61,9 +60,9 @@ class App extends React.Component {
 
     video.addEventListener("ended", () => {
       if (this.state.douga.length === 0) return;
-      const { id } = this.state.douga[0];
+      const { url } = this.state.douga[0];
       this.storeDouga(this.state.douga.slice(1, this.state.douga.length));
-      location.href = `http://www.nicovideo.jp/watch/${id}`;
+      location.href = url;
     });
   };
 
@@ -74,11 +73,14 @@ class App extends React.Component {
   }
 
   render() {
+    const border = {
+      border: "solid 5px red",
+    };
     return (
-      <div>
+      <div style={this.state.keyFlag ? border : null}>
         {this.state.douga.map((item, key) => (
           <div key={key}>
-            <a href={`http://www.nicovideo.jp/watch/${item.id}`}>
+            <a href={item.url}>
               <img src={item.img} />
               <p>{item.title}</p>
             </a>
