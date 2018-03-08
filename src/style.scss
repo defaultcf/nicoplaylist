@@ -8,11 +8,11 @@
   width: 300px;
   height: calc(100vh - 36px);
   transition-timing-function: ease;
-  transition-property: right;
+  transition-property: top;
   transition-duration: 1s;
 
   &.npl-hide {
-    right: -250px;
+    top: calc(100vh - 35px);
   }
 
   &.npl-border {
