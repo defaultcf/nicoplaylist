@@ -1,14 +1,21 @@
-nicoplaylist {
+#nicoplaylist {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   z-index: 20;
   position: fixed;
-  bottom: 0;
+  top: 36px;
   right: 0;
   width: 300px;
-  height: 300px;
+  height: calc(100vh - 36px);
+  transition-timing-function: ease;
+  transition-property: right;
+  transition-duration: 1s;
 
-  .npl-border {
+  &.npl-hide {
+    right: -250px;
+  }
+
+  &.npl-border {
     border: solid 3px red;
   }
 
@@ -17,7 +24,7 @@ nicoplaylist {
   }
 
   #npl-list {
-    height: 270px;
+    height: calc(100vh - 66px);
     overflow-y: scroll;
   }
 

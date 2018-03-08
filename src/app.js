@@ -5,6 +5,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       keyFlag: false,
+      hideWindow: true,
       douga: [],
     };
   }
@@ -73,10 +74,23 @@ class App extends React.Component {
   }
 
   render() {
+    const calcWindowClassName = () => {
+      let className = [];
+      if (this.state.hideWindow) className.push("npl-hide");
+      if (this.state.keyFlag) className.push("npl-border");
+      return className.join(" ");
+    }
+
+    const toggleWindow = () => {
+      this.setState({"hideWindow": !this.state.hideWindow});
+    }
+
     return (
-      <div className={this.state.keyFlag ? "npl-border" : null}>
+      <div id="nicoplaylist" className={calcWindowClassName()}>
         <div id="npl-header">
-          <button>&minus;</button>
+          <button onClick={toggleWindow}>
+            &minus;
+          </button>
         </div>
 
         <div id="npl-list">
