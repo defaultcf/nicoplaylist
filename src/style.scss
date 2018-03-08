@@ -1,0 +1,52 @@
+#nicoplaylist {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  z-index: 20;
+  position: fixed;
+  top: 36px;
+  right: 0;
+  width: 300px;
+  height: calc(100vh - 36px);
+  transition-timing-function: ease;
+  transition-property: top;
+  transition-duration: 1s;
+
+  &.npl-hide {
+    top: calc(100vh - 35px);
+  }
+
+  &.npl-border {
+    border: solid 3px red;
+  }
+
+  #npl-header {
+    height: 30px;
+  }
+
+  #npl-list {
+    height: calc(100vh - 66px);
+    overflow-y: scroll;
+
+    div {
+      display: -webkit-flex;
+      display: flex;
+
+      img {
+        width: 100px;
+        max-height: 70px;
+      }
+
+      p {
+        flex: auto;
+      }
+    }
+  }
+
+  * {
+    color: white;
+  }
+
+  button {
+    color: black;
+  }
+}

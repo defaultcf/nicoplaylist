@@ -6,7 +6,7 @@ module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    filename: "bundle.js",
+    filename: "nicoplaylist.user.js",
   },
   module: {
     rules: [
@@ -16,16 +16,12 @@ module.exports = {
         loader: "babel-loader",
       },
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         exclude: /node_modules/,
         use: [
           { loader: "style-loader" },
-          {
-            loader: "css-loader",
-            options: {
-              modules: true,
-            },
-          },
+          { loader: "css-loader" },
+          { loader: "sass-loader" },
         ],
       },
     ],
