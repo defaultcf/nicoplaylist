@@ -1,4 +1,6 @@
 import React from 'react';
+import { arrayMove } from 'react-sortable-hoc';
+import SortableList from './list';
 
 class App extends React.Component {
   constructor(props) {
@@ -85,6 +87,12 @@ class App extends React.Component {
       this.setState({"hideWindow": !this.state.hideWindow});
     }
 
+    const onSortEnd = ({oldIndex, newIndex}) => {
+      this.setState({
+        douga: arrayMove(this.state.douga, oldIndex, newIndex),
+      });
+    };
+
     return (
       <div id="nicoplaylist" className={calcWindowClassName()}>
         <div id="npl-header">
@@ -93,16 +101,7 @@ class App extends React.Component {
           </button>
         </div>
 
-        <div id="npl-list">
-          {this.state.douga.map((item, key) => (
-            <div key={key}>
-              <a href={item.url}>
-                <img src={item.img} />
-                <p>{item.title}</p>
-              </a>
-            </div>
-          ))}
-        </div>
+        <SortableList items={this.state.douga} onSortEnd={onSortEnd} />
       </div>
     );
   }
