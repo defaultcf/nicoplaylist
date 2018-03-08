@@ -26,13 +26,27 @@
   #npl-list {
     height: calc(100vh - 66px);
     overflow-y: scroll;
+
+    div {
+      display: -webkit-flex;
+      display: flex;
+
+      img {
+        width: 100px;
+        max-height: 70px;
+      }
+
+      p {
+        flex: auto;
+      }
+    }
   }
 
   * {
     color: white;
   }
 
-  img {
-    max-width: 100%;
+  button {
+    color: black;
   }
 }

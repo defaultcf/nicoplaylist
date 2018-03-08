@@ -1,11 +1,15 @@
 import React from 'react';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { SortableContainer, SortableElement, SortableHandle } from 'react-sortable-hoc';
+
+const ImgHandle = SortableHandle(({ src }) => <img src={src} />);
 
 const SortableItem = SortableElement(({value}) => (
-  <a href={value.url}>
-    <img src={value.img} />
-    <p>{value.title}</p>
-  </a>
+  <div>
+    <ImgHandle src={value.img} />
+    <a href={value.url}>
+      <p>{value.title}</p>
+    </a>
+  </div>
 ));
 
 export default SortableContainer(({items}) => (

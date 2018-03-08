@@ -6,7 +6,7 @@ module.exports = {
   mode: "development",
   entry: "./src/index.js",
   output: {
-    filename: "bundle.js",
+    filename: "nicoplaylist.user.js",
   },
   module: {
     rules: [
@@ -35,10 +35,10 @@ module.exports = {
         },
       },
     }),
-    // new webpack.BannerPlugin({
-    //   raw: true,
-    //   entryOnly: true,
-    //   banner,
-    // }),
+    new webpack.BannerPlugin({
+      raw: true,
+      entryOnly: true,
+      banner,
+    }),
   ],
 };

@@ -44,7 +44,7 @@ class App extends React.Component {
       item.addEventListener("click", e => {
         if (this.state.keyFlag) {
           e.preventDefault();
-          const url = item.querySelector(".itemTitle a").getAttribute("href");
+          const url = item.querySelector(".itemTitle a").href;
           const title = item.querySelector(".itemTitle a").innerHTML;
           const img = item.querySelector(".thumb").src;
           this.storeDouga([...this.state.douga, {url, title, img}]);
@@ -88,20 +88,25 @@ class App extends React.Component {
     }
 
     const onSortEnd = ({oldIndex, newIndex}) => {
-      this.setState({
-        douga: arrayMove(this.state.douga, oldIndex, newIndex),
-      });
+      this.storeDouga(arrayMove(this.state.douga, oldIndex, newIndex))
+    };
+
+    const clearAll = () => {
+      if (window.confirm("リスト内の動画を全て削除します")) {
+        this.storeDouga([]);
+      }
     };
 
     return (
       <div id="nicoplaylist" className={calcWindowClassName()}>
         <div id="npl-header">
-          <button onClick={toggleWindow}>
-            &minus;
-          </button>
+          <button onClick={toggleWindow}>&minus;</button>
+          <span>リスト</span>
+          <button onClick={clearAll}>全て消す</button>
+          <span>{this.state.douga.length}件</span>
         </div>
 
-        <SortableList items={this.state.douga} onSortEnd={onSortEnd} />
+        <SortableList items={this.state.douga} onSortEnd={onSortEnd} useDragHandle={true} />
       </div>
     );
   }
