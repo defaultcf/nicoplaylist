@@ -1,5 +1,5 @@
 nicoplaylist {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   z-index: 20;
   position: fixed;
@@ -8,8 +8,16 @@ nicoplaylist {
   width: 300px;
   height: 300px;
 
-  >div {
-    height: 100%;
+  .npl-border {
+    border: solid 3px red;
+  }
+
+  #npl-header {
+    height: 30px;
+  }
+
+  #npl-list {
+    height: 270px;
     overflow-y: scroll;
   }
 

@@ -73,19 +73,22 @@ class App extends React.Component {
   }
 
   render() {
-    const border = {
-      border: "solid 5px red",
-    };
     return (
-      <div style={this.state.keyFlag ? border : null}>
-        {this.state.douga.map((item, key) => (
-          <div key={key}>
-            <a href={item.url}>
-              <img src={item.img} />
-              <p>{item.title}</p>
-            </a>
-          </div>
-        ))}
+      <div className={this.state.keyFlag ? "npl-border" : null}>
+        <div id="npl-header">
+          <button>&minus;</button>
+        </div>
+
+        <div id="npl-list">
+          {this.state.douga.map((item, key) => (
+            <div key={key}>
+              <a href={item.url}>
+                <img src={item.img} />
+                <p>{item.title}</p>
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
