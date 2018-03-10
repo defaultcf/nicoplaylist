@@ -15,10 +15,6 @@
     top: calc(100vh - 35px);
   }
 
-  &.npl-border {
-    border: solid 3px red;
-  }
-
   #npl-header {
     height: 30px;
   }
@@ -49,4 +45,8 @@
   button {
     color: black;
   }
+}
+
+.npl-addmode:hover a {
+  cursor: copy !important;
 }

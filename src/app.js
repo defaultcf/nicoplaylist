@@ -8,6 +8,7 @@ class App extends React.Component {
     this.state = {
       keyFlag: false,
       hideWindow: true,
+      hideWindowFlag: true,
       douga: [],
     };
   }
@@ -18,28 +19,46 @@ class App extends React.Component {
   }
 
   fetchList() {
-    if (localStorage.getItem("NicoPlayList") === null) {
+    if (localStorage.getItem("NicoPlayList") === null)
       localStorage.setItem("NicoPlayList", JSON.stringify([]));
-    } else {
+    else
       this.storeDouga(JSON.parse(localStorage.getItem("NicoPlayList")))
-    }
 
     window.addEventListener("storage", e => {
-      if (e.key === "NicoPlayList") {
+      if (e.key === "NicoPlayList")
         this.setState({ douga: JSON.parse(e.newValue) });
-      }
     }, false)
   }
 
   addList() {
+    const items = Array.from(document.getElementsByClassName("item"));
+
     document.addEventListener("keydown", e => {
-      if (e.key === "a") this.setState({ keyFlag: true });
+      if (e.key === "a") {
+        this.setState({ keyFlag: true });
+        items.map(item => {
+          item.classList.add("npl-addmode");
+        });
+      }
+
+      if (e.key === "q" && this.state.hideWindowFlag) {
+        this.setState({ hideWindow: !this.state.hideWindow });
+        this.setState({ hideWindowFlag: false });
+      }
     });
     document.addEventListener("keyup", e => {
-      this.setState({ keyFlag: false });
+      if (e.key === "a") {
+        this.setState({ keyFlag: false });
+        items.map(item => {
+          item.classList.remove("npl-addmode");
+        });
+      }
+
+      if (e.key === "q") {
+        this.setState({ hideWindowFlag: true });
+      }
     });
 
-    const items = Array.from(document.getElementsByClassName("item"));
     items.forEach(item => {
       item.addEventListener("click", e => {
         if (this.state.keyFlag) {
@@ -57,10 +76,7 @@ class App extends React.Component {
     if (!location.pathname.match(/^\/watch\/sm\d+/)) return;
 
     const video = document.querySelector("video");
-    video.autoplay = true;
-
-    video.addEventListener("timeupdate", () => {});
-
+    video.play();
     video.addEventListener("ended", () => {
       if (this.state.douga.length === 0) return;
       const { url } = this.state.douga[0];
@@ -76,13 +92,6 @@ class App extends React.Component {
   }
 
   render() {
-    const calcWindowClassName = () => {
-      let className = [];
-      if (this.state.hideWindow) className.push("npl-hide");
-      if (this.state.keyFlag) className.push("npl-border");
-      return className.join(" ");
-    }
-
     const toggleWindow = () => {
       this.setState({"hideWindow": !this.state.hideWindow});
     }
@@ -92,13 +101,11 @@ class App extends React.Component {
     };
 
     const clearAll = () => {
-      if (window.confirm("リスト内の動画を全て削除します")) {
-        this.storeDouga([]);
-      }
+      if (window.confirm("リスト内の動画を全て削除します")) this.storeDouga([]);
     };
 
     return (
-      <div id="nicoplaylist" className={calcWindowClassName()}>
+      <div id="nicoplaylist" className={this.state.hideWindow ? "npl-hide" : ""}>
         <div id="npl-header">
           <button onClick={toggleWindow}>&minus;</button>
           <span>リスト</span>
